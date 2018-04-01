@@ -2,8 +2,9 @@
 /node_modules
 /public/hot
 /public/storage
-/public/download
+public/download/
 storage/plymouth/
+storage/uploads/
 /storage/*.key
 /vendor
 /.idea
