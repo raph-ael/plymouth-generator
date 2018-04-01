@@ -114,29 +114,35 @@ class PlymouthTheme
     {
 
         $wallpaper = null;
-        $manager = new ImageManager(array('driver' => 'imagick'));
-        $wallpaper = $manager->canvas(1920, 1080, '#' . strtolower($this->bg_color));
+
 
         /*
          * wenn wallpaper gesetzt ersetzte default
          */
         if($this->bg_image)
         {
+            $manager = new ImageManager(array('driver' => 'imagick'));
             // to finally create image instances
             $image = $manager->make($this->bg_image);
-            /*
-            $image->resize(1920, 1920, function ($constraint) {
+
+            $image->resize(1920, 1080, function ($constraint) {
                 $constraint->aspectRatio();
-            });*/
+            });
 
-            $image->save($this->tmp_folder . '/wallpaper_tmp.png');
-
-            $wallpaper->insert($this->tmp_folder . '/wallpaper_tmp.png', 'center');
-            unlink($this->tmp_folder . '/wallpaper_tmp.png');
+            $image->save($this->tmp_folder . '/wallpaper.png');
 
         }
+        /*
+         * wenn kein wallpaper generiere farbigen hintergrund
+         */
+        else
+        {
+            $manager = new ImageManager(array('driver' => 'imagick'));
+            $wallpaper = $manager->canvas(1920, 1080, '#' . strtolower($this->bg_color));
+            $wallpaper->save($this->tmp_folder . '/wallpaper.png');
+        }
 
-        $wallpaper->save($this->tmp_folder . '/wallpaper.png');
+
     }
 
     private function generateLogo()
