@@ -1,8 +1,0 @@
-[Plymouth Theme]
-Name=test
-Description=test Plymouth Theme powered by Theme-Generator
-ModuleName=script
-
-[script]
-ImageDir=/usr/share/plymouth/themes/test
-ScriptFile=/usr/share/plymouth/themes/test/test.script

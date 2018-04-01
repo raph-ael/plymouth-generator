@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'PlymouthController@index');
-Route::any('/generate', 'PlymouthController@generate');
+Route::post('/generate', 'PlymouthController@generate');
 Route::get('/install/{id}', 'PlymouthController@install');
 
 
