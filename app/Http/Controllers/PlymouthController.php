@@ -18,28 +18,32 @@ class PlymouthController extends Controller
     public function generate(Request $request)
     {
 
-        request()->validate([
-
-            'logoimage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
-        ]);
-
         /*
          * init plymouth
          */
-        $name = 'test';
+        $name = 'plymouth-generator-theme';
+
+        if ($themename = request()->get('themename')) {
+            $name = $themename;
+        }
+
+
         $plymouth = new PlymouthTheme($name);
+
+        /*
+         * background color
+         */
+        if ($bgcolor = request()->get('bgcolor')) {
+            $plymouth->setBackgroundColor($bgcolor);
+        }
 
         /*
          * upload Logo
          */
-        $img = uniqid('logo-').'.'.request()->logoimage->getClientOriginalExtension();
-        request()->logoimage->move(storage_path('uploads'), $img);
-        $plymouth->setLogo(storage_path('uploads/' . $img));
-
-        if($bgcolor = request()->get('bgcolor'))
-        {
-            $plymouth->setBackgroundColor($bgcolor);
+        if($file = $request->file('logoimage')) {
+            $img = uniqid('logo-') . '.' . request()->logoimage->getClientOriginalExtension();
+            request()->logoimage->move(storage_path('uploads'), $img);
+            $plymouth->setLogo(storage_path('uploads/' . $img));
         }
 
         /*
@@ -57,8 +61,8 @@ class PlymouthController extends Controller
          */
         if($file = $request->file('loaderimage'))
         {
-            $img = uniqid('spinner-').'.'.request()->bgimage->getClientOriginalExtension();
-            request()->bgimage->move(storage_path('uploads'), $img);
+            $img = uniqid('spinner-').'.'.request()->loaderimage->getClientOriginalExtension();
+            request()->loaderimage->move(storage_path('uploads'), $img);
             $plymouth->setSpinnerImage(storage_path('uploads/' . $img));
         }
 
@@ -79,7 +83,7 @@ class PlymouthController extends Controller
         return response()->json([
             'status' => 'success',
             'file' => $filename,
-            'code' => 'wget -O - '.url('/install', $model->id).' | sudo bash'
+            'code' => 'wget -O - '.url('/install', $model->id).' | bash'
         ]);
     }
 
@@ -88,16 +92,21 @@ class PlymouthController extends Controller
         $theme = PlymouthThemeModel::find($id);
 
         echo "#!/bin/bash\n" .
+            "clear\n" .
+            "echo 'plymouth theme installation'\n" .
+            "sudo su\n" .
             "mkdir /tmp/" . $theme->id . "\n" .
             "cd /tmp/" . $theme->id . "\n" .
             "wget ".url('download/theme/'.$theme->id.'-' . $theme->pathname . '.zip')."\n" .
             "unzip " . $theme->id . "-" . $theme->pathname . ".zip\n" .
+            //"rm -rf /usr/share/plymouth/themes/" . $theme->pathname . "\n",
             "cp -r ./" . $theme->pathname . " /usr/share/plymouth/themes/\n" .
             "cd /tmp\n" .
             "rm -rf ./" . $theme->id . "\n" .
             "update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/" . $theme->pathname . "/" . $theme->pathname . ".plymouth ".((int)$theme->id+100)."\n" .
             "echo $((`echo \"\" | update-alternatives --config default.plymouth | grep " . $theme->pathname . ".plymouth | cut -f 1 -d '/' | sed 's/[^0-9]//'`)) | update-alternatives --config default.plymouth\n" .
-            "update-initramfs -u\n";
+            "update-initramfs -u\n" .
+            "exit\n";
             //'plymouthd ; plymouth --show-splash ; for ((I=0; I<3; I++)); do sleep 1 ; plymouth --update=test$I ; done ; plymouth --quit' . "\n";
     }
 

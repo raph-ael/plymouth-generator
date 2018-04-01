@@ -16,9 +16,10 @@
 </head>
 
     <body>
+
         <nav class="transparent">
             <a href="#" class="brand">
-                <span>Plymouth Generator</span>
+                <span>Plymouth Generator</span> <span class="alpha">alpha 0.1.*</span>
             </a>
 
             <!-- responsive-->
@@ -30,24 +31,25 @@
             </div>
         </nav>
         <main>
-            <header class="hero">
+            <header class="hero section">
                 <div class="content">
                     <h1>Plymouth Generator</h1>
                     <p class="slogan">brand your tux</p>
+                    <p><input id="theme-name" placeholder="pick a name"/><a class="button" href="#content">go for it</a></p>
                 </div>
             </header>
-            <div id="content" class="visual">
+            <div id="content" class="visual section">
 
                 <div id="theme">
 
                     <img src="/img/16_9.png" class="preview-bg" id="preview-bg" />
-                    <img src="/img/anarchy-white.png" class="preview-logo" id="preview-logo" />
+                    <img src="/img/16_9.png" class="preview-logo" id="preview-logo" />
                     <img src="/img/loader.png" class="preview-loader" id="preview-loader" />
 
                 </div>
 
 
-                <div style="text-align: center;" class="tabs four">
+                <div class="controls tabs four">
                     <input id='tab-1' type='radio' name='tabgroupB' checked />
                     <label class="pseudo button toggle" for="tab-1">background color</label>
                     <input id='tab-2' type='radio' name='tabgroupB'>
@@ -89,33 +91,47 @@
                 <div class="modal">
                     <input id="modal_1" type="checkbox" />
                     <label for="modal_1" class="overlay"></label>
-                    <article id="modal-ready" style="display: none;">
+
+                    <article id="modal-error" style="display: none;">
                         <header>
-                            <h3>Fertig!</h3>
+                            <h3>Error!</h3>
                             <label for="modal_1" class="close">&times;</label>
                         </header>
                         <section class="content">
-                            <p>Dein Theme wurde erstellt, <a id="modal-dl-link" href="#">lade es hier herunter</a>, oder führe direkt folgendes script aus um es zu installieren</p>
-                            <pre><code class="lang-css" id="modal-code"></code></pre>
+                            <p></p>
                         </section>
                         <footer>
                             <label for="modal_1" class="button dangerous">
-                                abbrechen
+                                exit
                             </label>
                         </footer>
                     </article>
-                    <article id="modal-loading">
+
+                    <article id="modal-ready" style="display: none;">
                         <header>
-                            <h3>Generiere plymouth Theme</h3>
+                            <h3>Ready!</h3>
                             <label for="modal_1" class="close">&times;</label>
                         </header>
                         <section class="content">
-                            bitte warten...
+                            <p>you can, <a id="modal-dl-link" href="#">download yout theme here</a>, or put this in yout terminal and install it now!</p>
+                            <pre><code class="lang-css" id="modal-code"></code></pre>
                         </section>
                         <footer>
+                            <p></p>
+                        </footer>
+                    </article>
 
+                    <article id="modal-loading">
+                        <header>
+                            <h3>generate plymouth Theme</h3>
+                            <label for="modal_1" class="close">&times;</label>
+                        </header>
+                        <section class="content">
+                            please wait...
+                        </section>
+                        <footer>
                             <label for="modal_1" class="button dangerous">
-                                abbrechen
+                                abort
                             </label>
                         </footer>
                     </article>
@@ -138,6 +154,12 @@
 
 
             </div>
+
+            <footer class="hero section">
+                <div class="content">
+                    <a href="https://github.com/raph-ael/plymouth-generator" target="_blank" class="pseudo button"><i class="icon-github"></i> GitHub</a>
+                </div>
+            </footer>
 
         </main>
 

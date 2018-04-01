@@ -33,6 +33,11 @@ class PlymouthTheme
         $this->setPathname($name);
 
         /*
+         * logo
+         */
+        $this->logo = false;
+
+        /*
          * spinner
          */
         $this->spinner_image = false;
@@ -97,6 +102,7 @@ class PlymouthTheme
             $image = $manager->make($this->spinner_image);
             $image->resize(48, 48, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             });
 
             $image->save($this->tmp_folder . '/spinner.png');
@@ -134,15 +140,24 @@ class PlymouthTheme
 
     private function generateLogo()
     {
-        $manager = new ImageManager(array('driver' => 'imagick'));
+        if($this->logo)
+        {
+            $manager = new ImageManager(array('driver' => 'imagick'));
 
-        // to finally create image instances
-        $image = $manager->make($this->logo);
-        $image->resize(500, 400, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+            // to finally create image instances
+            $image = $manager->make($this->logo);
+            $image->resize(500, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            });
 
-        $image->save($this->tmp_folder . '/logo.png');
+            $image->save($this->tmp_folder . '/logo.png');
+        }
+        else
+        {
+            copy($this->tmp_folder . '/none.png', $this->tmp_folder . '/logo.png');
+            unlink($this->tmp_folder . '/none.png');
+        }
+
     }
 
     private function copyBoilerplateToTempFolder()

@@ -3,7 +3,21 @@ var app = {
     init: function(){
         preview.init();
         control.init();
+        generate_button.init();
+        //pagescroll.init();
 
+
+    }
+};
+
+var pagescroll = {
+    init: function(){
+
+    }
+}
+
+var generate_button = {
+    init: function(){
         $('#generate').click(function(){
 
             var $button = $(this);
@@ -17,14 +31,20 @@ var app = {
 
             var form_data = new FormData();
 
+            var theme_name = $('#theme-name').val();
+            if(theme_name == "")
+            {
+                theme_name = 'plymouth-generator-theme';
+            }
+
             form_data.append("bgimage", bg_image);
             form_data.append("logoimage", logo_image);
             form_data.append("loaderimage", loader_image);
             form_data.append("bgcolor", $('#background-color').val());
+            form_data.append("themename", theme_name);
             form_data.append("_token", $('#data-form input[name="_token"]').val());
 
             $('#modal-trigger').trigger('click');
-
             $.ajax({
                 url: "/generate",
                 dataType: 'json',
@@ -46,16 +66,27 @@ var app = {
                     $('#modal-code').text(json.code);
 
 
-                    setTimeout(function () {
-                        $button.prop('disabled', false)
-                    },2000);
+
                 },
-                error: function () {
-                    alert('please choose a logo image!');
+                complete: function (ret, status) {
+                    if(status == 'error')
+                    {
+                        console.log(ret.response);
+                        json = JSON.parse(ret.response);
+
+                        $('#modal-loading').css('display','none');
+                        $('#modal-error').css('display','block');
+
+                        $('#modal-error .content').html('<p>' + json.message + '</p>');
+
+                        setTimeout(function () {
+                            $button.prop('disabled', false)
+                        },500);
+                    }
+
                 }
             });
         });
-
     }
 };
 
@@ -342,6 +373,16 @@ Zepto(function($){
 
 
 });
+
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + s4();
+}
 
 window.downloadFile = function (sUrl) {
 
