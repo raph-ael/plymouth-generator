@@ -1,0 +1,20 @@
+{
+    "name": "geldfrei/plymouth",
+    "description": "Plymouth Theme Generatrion",
+    "type": "package",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Raphael Wintrich",
+            "email": "raphael.wintrich@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Geldfrei\\Plymouth\\": "src/"
+        }
+    },
+    "require": {
+
+    }
+}
