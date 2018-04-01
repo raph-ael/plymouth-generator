@@ -3,6 +3,7 @@
 /public/hot
 /public/storage
 storage/uploads/
+storage/sqlite/
 public/download/
 storage/plymouth/
 storage/uploads/
