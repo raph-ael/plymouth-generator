@@ -49,44 +49,42 @@
 
                 <div style="text-align: center;" class="tabs four">
                     <input id='tab-1' type='radio' name='tabgroupB' checked />
-                    <label class="pseudo button toggle" for="tab-1">Hintergrundfarbe</label>
+                    <label class="pseudo button toggle" for="tab-1">background color</label>
                     <input id='tab-2' type='radio' name='tabgroupB'>
-                    <label class="pseudo button toggle" for="tab-2">Logo</label>
+                    <label class="pseudo button toggle" for="tab-2">logo</label>
                     <input id='tab-3' type='radio' name='tabgroupB'>
-                    <label class="pseudo button toggle" for="tab-3">Loader</label>
+                    <label class="pseudo button toggle" for="tab-3">spinner</label>
                     <input id='tab-4' type='radio' name='tabgroupB'>
-                    <label class="pseudo button toggle" for="tab-4">Hintergrund-Bild</label>
+                    <label class="pseudo button toggle" for="tab-4">background image</label>
                     <div class="row">
                         <div>
 
                             <button class="jscolor {valueElement:'bg-color-value', styleElement:'preview-bg'}">
-                                Farbe auswählen
+                                pick a color
                             </button> <input style="width: 90px;" id="bg-color-value" value="373737">
 
                         </div>
 
                         <div>
-                            <button id="btn-logo-image">Logo auswählen</button> <button id="btn-logo-image-delete" class="error">Logo löschen</button>
+                            <button id="btn-logo-image">pick a logo image from your computer</button> <button id="btn-logo-image-delete" class="error">delete logo</button>
                         </div>
 
                         <div>
-                            <button id="btn-loading-image">Logo auswählen</button> <button id="btn-loading-image-delete" class="error">Spinner löschen</button>
+                            <button id="btn-loading-image">pick spinner image</button> <button id="btn-loading-image-delete" class="error">delete spinner</button>
                         </div>
 
                         <div>
-                            <button id="btn-background-image">Bild auswählen</button> <button id="btn-background-image-delete" class="error">Bild löschen</button>
+                            <button id="btn-background-image">choose background image</button> <button id="btn-background-image-delete" class="error">delete image</button>
                         </div>
                     </div>
                 </div>
 
 
                 <div class="center">
-                    <p style="text-align: center"><button id="generate" class="success">Theme generieren</button></p>
+                    <p style="text-align: center"><button id="generate" class="success">install plymouth theme</button></p>
 
                 </div>
 
-
-                <label id="modal-trigger" for="modal_1" class="button">Show modal</label>
 
                 <div class="modal">
                     <input id="modal_1" type="checkbox" />
@@ -125,6 +123,7 @@
 
 
                 <div class="hidden-form">
+                    <label id="modal-trigger" for="modal_1" class="button">Show modal</label>
                     <form id="data-form">
                         <input name="background-image" id="background-image" type="file" />
                         <input name="background-color" id="background-color" type="hidden" />

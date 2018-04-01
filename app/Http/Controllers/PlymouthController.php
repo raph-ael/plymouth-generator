@@ -52,6 +52,16 @@ class PlymouthController extends Controller
             $plymouth->setBackgroundImage(storage_path('uploads/' . $img));
         }
 
+        /*
+         * upload spinner
+         */
+        if($file = $request->file('loaderimage'))
+        {
+            $img = uniqid('spinner-').'.'.request()->bgimage->getClientOriginalExtension();
+            request()->bgimage->move(storage_path('uploads'), $img);
+            $plymouth->setSpinnerImage(storage_path('uploads/' . $img));
+        }
+
         $plymouth->render();
 
         $model = new PlymouthThemeModel();

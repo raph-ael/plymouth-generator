@@ -51,7 +51,7 @@ var app = {
                     },2000);
                 },
                 error: function () {
-                    alert('Fehler!');
+                    alert('please choose a logo image!');
                 }
             });
         });

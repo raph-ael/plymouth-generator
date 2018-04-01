@@ -22,6 +22,8 @@ class PlymouthTheme
     private $bg_color;
     private $bg_image;
 
+    private $spinner_image;
+
     public function __construct($name)
     {
         /*
@@ -29,6 +31,11 @@ class PlymouthTheme
          */
         $this->name = $name;
         $this->setPathname($name);
+
+        /*
+         * spinner
+         */
+        $this->spinner_image = false;
 
         /*
          * background
@@ -71,9 +78,30 @@ class PlymouthTheme
         $this->generateLogo();
 
         /*
+         * generate logo image
+         */
+        $this->generateSpinner();
+
+        /*
          * generate the background color and | or image
          */
         $this->generateBackground();
+    }
+
+    private function generateSpinner()
+    {
+        if($this->spinner_image)
+        {
+            unlink($this->tmp_folder . '/spinner.png');
+            $manager = new ImageManager(array('driver' => 'imagick'));
+            $image = $manager->make($this->spinner_image);
+            $image->resize(48, 48, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $image->save($this->tmp_folder . '/spinner.png');
+            unlink($this->spinner_image);
+        }
     }
 
     private function generateBackground()
@@ -88,7 +116,6 @@ class PlymouthTheme
          */
         if($this->bg_image)
         {
-
             // to finally create image instances
             $image = $manager->make($this->bg_image);
             $image->resize(1920, 1080, function ($constraint) {
@@ -120,7 +147,6 @@ class PlymouthTheme
 
     private function copyBoilerplateToTempFolder()
     {
-
         /*
          * erstelle verzeichnis wenn nicht vorhanden
          */
@@ -274,5 +300,10 @@ class PlymouthTheme
     public function setBackgroundImage($path)
     {
         $this->bg_image = $path;
+    }
+
+    public function setSpinnerImage($path)
+    {
+        $this->spinner_image = $path;
     }
 }
