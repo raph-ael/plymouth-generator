@@ -1,10 +1,25 @@
 
 var app = {
+
+    window: null,
+    html:null,
+
     init: function(){
+
+        this.window = $(window);
+        this.html = $('html');
+
         preview.init();
         control.init();
         generate_button.init();
         //pagescroll.init();
+
+        pageloader.init();
+
+        window.onresize = function(event) {
+            preview.reposition();
+            pageloader.reposition();
+        };
 
 
     }
@@ -44,7 +59,7 @@ var generate_button = {
             form_data.append("themename", theme_name);
             form_data.append("_token", $('#data-form input[name="_token"]').val());
 
-            $('#modal-trigger').trigger('click');
+            pageloader.show();
             $.ajax({
                 url: "/generate",
                 dataType: 'json',
@@ -54,9 +69,9 @@ var generate_button = {
                 data: form_data,                         // Setting the data attribute of ajax with file_data
                 type: 'POST',
                 success: function(json){
-                    //downloadFile('./download/theme/' + json.file);
+                    $('#modal-trigger').click();
+
                     $('#modal-ready').css('display','block');
-                    $('#modal-loading').css('display','none');
 
                     $('#modal-dl-link').unbind('click');
                     $('#modal-dl-link').bind('click', function(ev){
@@ -65,10 +80,15 @@ var generate_button = {
                     });
                     $('#modal-code').text(json.code);
 
-
-
                 },
                 complete: function (ret, status) {
+
+                    pageloader.hide();
+
+                    setTimeout(function () {
+                        $button.prop('disabled', false)
+                    },500);
+
                     if(status == 'error')
                     {
                         console.log(ret.response);
@@ -79,9 +99,7 @@ var generate_button = {
 
                         $('#modal-error .content').html('<p>' + json.message + '</p>');
 
-                        setTimeout(function () {
-                            $button.prop('disabled', false)
-                        },500);
+
                     }
 
                 }
@@ -90,15 +108,40 @@ var generate_button = {
     }
 };
 
+var modal = {
+    set: function(title, content, footer){
+
+    }
+}
+
+var pageloader = {
+
+    element: null,
+
+    init: function(){
+
+        this.element = $('#overlay');
+        this.reposition();
+    },
+
+    show: function(){
+        app.html.css('overflow','hidden');
+        this.element.css('display','block');
+    },
+    hide: function () {
+        app.html.css('overflow','auto');
+        this.element.css('display','none');
+    },
+    reposition: function(){
+        this.element.css('height', app.window.height()+'px');
+    }
+};
+
 var preview = {
     init: function(){
         preview_bg.init();
         preview_logo.init();
         preview_loader.init();
-
-        window.onresize = function(event) {
-            preview.reposition();
-        };
 
         this.reposition();
 

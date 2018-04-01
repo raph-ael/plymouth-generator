@@ -5,8 +5,10 @@
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="css, library, picnic, picnicss, light">
     <meta name="description" content="A lightweight CSS library">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://unpkg.com/picnic" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+
     <link rel="icon" href="web/img/basket.png" type="image/png">
     <link rel="stylesheet" media="bogus">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
@@ -120,21 +122,6 @@
                             <p></p>
                         </footer>
                     </article>
-
-                    <article id="modal-loading">
-                        <header>
-                            <h3>generate plymouth Theme</h3>
-                            <label for="modal_1" class="close">&times;</label>
-                        </header>
-                        <section class="content">
-                            please wait...
-                        </section>
-                        <footer>
-                            <label for="modal_1" class="button dangerous">
-                                abort
-                            </label>
-                        </footer>
-                    </article>
                 </div>
 
 
@@ -162,6 +149,12 @@
             </footer>
 
         </main>
+
+        <div id="overlay" style="display:none;">
+            <div class="spinner">
+                <i class="fa fa-gear fa-spin"></i>
+            </div>
+        </div>
 
     </body>
 </html>
