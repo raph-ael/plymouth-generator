@@ -13,6 +13,7 @@
 
 Route::get('/', 'PlymouthController@index');
 Route::any('/generate', 'PlymouthController@generate');
+Route::get('/install/{id}', 'PlymouthController@install');
 
 
 Route::group(['prefix' => 'admin'], function () {

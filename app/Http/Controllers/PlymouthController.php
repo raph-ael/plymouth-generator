@@ -68,8 +68,27 @@ class PlymouthController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'file' => $filename
+            'file' => $filename,
+            'code' => 'wget -O - '.url('/install', $model->id).' | sudo bash'
         ]);
+    }
+
+    public function install($id)
+    {
+        $theme = PlymouthThemeModel::find($id);
+
+        echo "#!/bin/bash\n" .
+            "mkdir /tmp/" . $theme->id . "\n" .
+            "cd /tmp/" . $theme->id . "\n" .
+            "wget ".url('download/theme/'.$theme->id.'-' . $theme->pathname . '.zip')."\n" .
+            "unzip " . $theme->id . "-" . $theme->pathname . ".zip\n" .
+            "cp -r ./" . $theme->pathname . " /usr/share/plymouth/themes/\n" .
+            "cd /tmp\n" .
+            "rm -rf ./" . $theme->id . "\n" .
+            "update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/" . $theme->pathname . "/" . $theme->pathname . ".plymouth ".((int)$theme->id+100)."\n" .
+            "echo $((`echo \"\" | update-alternatives --config default.plymouth | grep " . $theme->pathname . ".plymouth | cut -f 1 -d '/' | sed 's/[^0-9]//'`)) | update-alternatives --config default.plymouth\n" .
+            "update-initramfs -u\n";
+            //'plymouthd ; plymouth --show-splash ; for ((I=0; I<3; I++)); do sleep 1 ; plymouth --update=test$I ; done ; plymouth --quit' . "\n";
     }
 
 

@@ -86,7 +86,42 @@
                 </div>
 
 
+                <label id="modal-trigger" for="modal_1" class="button">Show modal</label>
 
+                <div class="modal">
+                    <input id="modal_1" type="checkbox" />
+                    <label for="modal_1" class="overlay"></label>
+                    <article id="modal-ready" style="display: none;">
+                        <header>
+                            <h3>Fertig!</h3>
+                            <label for="modal_1" class="close">&times;</label>
+                        </header>
+                        <section class="content">
+                            <p>Dein Theme wurde erstellt, <a id="modal-dl-link" href="#">lade es hier herunter</a>, oder führe direkt folgendes script aus um es zu installieren</p>
+                            <pre><code class="lang-css" id="modal-code"></code></pre>
+                        </section>
+                        <footer>
+                            <label for="modal_1" class="button dangerous">
+                                abbrechen
+                            </label>
+                        </footer>
+                    </article>
+                    <article id="modal-loading">
+                        <header>
+                            <h3>Generiere plymouth Theme</h3>
+                            <label for="modal_1" class="close">&times;</label>
+                        </header>
+                        <section class="content">
+                            bitte warten...
+                        </section>
+                        <footer>
+
+                            <label for="modal_1" class="button dangerous">
+                                abbrechen
+                            </label>
+                        </footer>
+                    </article>
+                </div>
 
 
                 <div class="hidden-form">

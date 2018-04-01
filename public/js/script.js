@@ -6,6 +6,10 @@ var app = {
 
         $('#generate').click(function(){
 
+            var $button = $(this);
+
+            $button.prop('disabled', true);
+
             var bg_image = $("#background-image").prop("files")[0];   // Getting the properties of file from file field
             var logo_image = $('#logo-image').prop("files")[0];
             var loader_image = $('#loading-image').prop("files")[0];
@@ -19,6 +23,8 @@ var app = {
             form_data.append("bgcolor", $('#background-color').val());
             form_data.append("_token", $('#data-form input[name="_token"]').val());
 
+            $('#modal-trigger').trigger('click');
+
             $.ajax({
                 url: "/generate",
                 dataType: 'json',
@@ -28,7 +34,24 @@ var app = {
                 data: form_data,                         // Setting the data attribute of ajax with file_data
                 type: 'POST',
                 success: function(json){
-                    downloadFile('./download/theme/' + json.file);
+                    //downloadFile('./download/theme/' + json.file);
+                    $('#modal-ready').css('display','block');
+                    $('#modal-loading').css('display','none');
+
+                    $('#modal-dl-link').unbind('click');
+                    $('#modal-dl-link').bind('click', function(ev){
+                        ev.preventDefault();
+                        downloadFile('./download/theme/' + json.file);
+                    });
+                    $('#modal-code').text(json.code);
+
+
+                    setTimeout(function () {
+                        $button.prop('disabled', false)
+                    },2000);
+                },
+                error: function () {
+                    alert('Fehler!');
                 }
             });
         });
