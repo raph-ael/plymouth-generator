@@ -26,8 +26,7 @@
             <label for="bmenub" class="burger pseudo button"><i class="icon-menu"></i></label>
 
             <div class="menu">
-                <a href="#" class="pseudo button icon-picture">Demo</a>
-                <a href="#" class="button icon-puzzle">Plugins</a>
+                <a href="https://github.com/raph-ael/plymouth-generator" target="_blank" class="pseudo button icon-g"><i class="icon-github"></i> GitHub</a>
             </div>
         </nav>
         <main>
