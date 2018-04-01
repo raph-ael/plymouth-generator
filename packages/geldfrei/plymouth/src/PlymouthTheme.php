@@ -124,9 +124,10 @@ class PlymouthTheme
         {
             // to finally create image instances
             $image = $manager->make($this->bg_image);
-            $image->resize(1920, 1080, function ($constraint) {
+            /*
+            $image->resize(1920, 1920, function ($constraint) {
                 $constraint->aspectRatio();
-            });
+            });*/
 
             $image->save($this->tmp_folder . '/wallpaper_tmp.png');
 
