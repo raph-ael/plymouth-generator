@@ -92,19 +92,60 @@ class PlymouthController extends Controller
         $theme = PlymouthThemeModel::find($id);
 
         echo "#!/bin/bash\n" .
-            "clear\n" .
-            "echo 'plymouth theme installation'\n" .
+            /*
+             * say hello
+             */
+            "clear\n\n" .
+            "echo 'plymouth-generator theme installation'\n" .
+            "echo '====================================='\n" .
+
+            /*
+             * become root
+             */
             "sudo su\n" .
+
+            /*
+             * create temp folder and jump in
+             */
             "mkdir /tmp/" . $theme->id . "\n" .
             "cd /tmp/" . $theme->id . "\n" .
+
+            /*
+             * get the archive and unzip
+             */
             "wget ".url('download/theme/'.$theme->id.'-' . $theme->pathname . '.zip')."\n" .
             "unzip " . $theme->id . "-" . $theme->pathname . ".zip\n" .
+
+            /*
+             * copy to plymouth theme folder
+             */
             //"rm -rf /usr/share/plymouth/themes/" . $theme->pathname . "\n",
             "cp -r ./" . $theme->pathname . " /usr/share/plymouth/themes/\n" .
+
+            /*
+             * remove temp folder
+             */
             "cd /tmp\n" .
             "rm -rf ./" . $theme->id . "\n" .
+
+            /*
+             * remove old theme with same name if there is one
+             */
+            "update-alternatives --remove default.plymouth /usr/share/plymouth/themes/" . $theme->pathname . "/" . $theme->pathname . ".plymouth\n" .
+
+            /*
+             * install the new version
+             */
             "update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/" . $theme->pathname . "/" . $theme->pathname . ".plymouth ".((int)$theme->id+100)."\n" .
+
+            /*
+             * pick theme from list silent
+             */
             "echo $((`echo \"\" | update-alternatives --config default.plymouth | grep " . $theme->pathname . ".plymouth | cut -f 1 -d '/' | sed 's/[^0-9]//'`)) | update-alternatives --config default.plymouth\n" .
+
+            /*
+             * build and exit
+             */
             "update-initramfs -u\n" .
             "exit\n";
             //'plymouthd ; plymouth --show-splash ; for ((I=0; I<3; I++)); do sleep 1 ; plymouth --update=test$I ; done ; plymouth --quit' . "\n";
