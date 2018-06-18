@@ -1,5 +1,7 @@
 # Plymouth Generator Web-Tool
 
+https://plymouth-generator.geldfrei.net/
+
 ## Installation
 
 ```
@@ -9,6 +11,10 @@ composer install
 php artisan serv
 ```
 
+## Demo
+
+https://plymouth-generator.geldfrei.net/
+
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The plymouth theme generator is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
